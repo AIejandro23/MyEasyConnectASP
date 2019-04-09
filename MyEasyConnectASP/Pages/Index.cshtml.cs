@@ -16,16 +16,12 @@ namespace MyEasyConnectASP.Pages
     public class IndexModel : PageModel
     {
         public GetWorkerRS Worker { get; set; }
-        public string Reminder { get; set; }
         public GetCorreosRS CorreosResponse { get; set; }
 
         public async Task OnGet()
         {
-            string data = "{ WorkerId: '1'}";
-            string contentType = "application/json";
             await GetWorker();
-            await GetCorreos();
-            Reminder = GetReminders("http://localhost:62114/GetReminders",data,contentType);           
+            await GetCorreos();  
         }
 
         public string GetReminders(string uri, string data, string contentType, string method = "POST")
