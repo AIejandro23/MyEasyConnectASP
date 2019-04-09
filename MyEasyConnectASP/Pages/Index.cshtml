@@ -260,7 +260,23 @@
 
 
                     <p class="circle-info">For organize Drag & Drop in the groups</p>
-                    <div id="team-wrapper"></div>
+                    <div id="team-wrapper">
+
+                        @foreach (var x in @Model.CircleCare.WorkerList)
+                        { 
+                            <div>
+                                <div class="profile-card red-card">
+                                    <div><img src="images/senior.png"></div>
+                                    <div class="user-name">
+                                        <h3>@x.Name @x.FirstSurname @x.SecondSurname</h3>
+                                        <p>@x.Job</p>
+                                    </div>
+                                    <button class="red-button">Send Message</button>
+                                </div>
+                            </div>
+
+                         }
+                    </div>
                 </div>
             </div>
         </section>

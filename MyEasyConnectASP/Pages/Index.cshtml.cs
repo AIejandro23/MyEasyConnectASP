@@ -13,11 +13,13 @@ namespace MyEasyConnectASP.Pages
         public GetCorreosRS CorreosResponse { get; set; }
         public GetRemindersRS ReminderResponse { get; set; }
 
+        public GetCircleRS CircleCare { get; set; }
         public async Task OnGet()
         {
             await GetWorker();
             await GetCorreos();
-            await GetReminders();           
+            await GetReminders();
+            await GetCircle();
         }
 
         public async Task GetReminders()
@@ -77,6 +79,26 @@ namespace MyEasyConnectASP.Pages
                 string resultContent = await result.Content.ReadAsStringAsync();
 
                 CorreosResponse = JsonConvert.DeserializeObject<GetCorreosRS>(resultContent);
+
+            }
+        }
+
+        public async Task GetCircle()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:62114");
+
+                var content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("WorkerId", "1")
+                });
+
+                var result = await client.PostAsync("/getCircleCare", content);
+
+                string resultContent = await result.Content.ReadAsStringAsync();
+
+                CircleCare = JsonConvert.DeserializeObject<GetCircleRS>(resultContent);
 
             }
         }
