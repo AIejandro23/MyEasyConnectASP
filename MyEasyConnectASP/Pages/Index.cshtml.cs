@@ -17,12 +17,17 @@ namespace MyEasyConnectASP.Pages
     public class IndexModel : PageModel
     {
         public GetWorkerRS Worker { get; set; }
+        public string Reminder { get; set; }
+        public GetCorreosRS CorreosResponse { get; set; }
+
         public GetReminderRS Reminder { get; set; }
         public async Task OnGet()
         {
             string data = "{ WorkerId: '1'}";
             string contentType = "application/json";
             await GetWorker();
+            await GetCorreos();
+            Reminder = GetReminders("http://localhost:62114/GetReminders",data,contentType);           
             GetReminders("http://localhost:62114/GetReminders",data,contentType);           
         }
 
@@ -68,6 +73,26 @@ namespace MyEasyConnectASP.Pages
                 string resultContent = await result.Content.ReadAsStringAsync();
 
                 Worker = JsonConvert.DeserializeObject<GetWorkerRS>(resultContent);
+
+            }
+        }
+
+        public async Task GetCorreos()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:62114");
+
+                var content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("WorkerId", "1")
+                });
+
+                var result = await client.PostAsync("/getCorreos", content);
+
+                string resultContent = await result.Content.ReadAsStringAsync();
+
+                CorreosResponse = JsonConvert.DeserializeObject<GetCorreosRS>(resultContent);
 
             }
         }

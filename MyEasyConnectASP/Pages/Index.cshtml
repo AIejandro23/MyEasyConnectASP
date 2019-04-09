@@ -135,33 +135,38 @@
                 </div>
 
                 <div>
+
                     <ul id="mail-list">
-                        <li v-for="message in messages">
-                            <div class="mail">
-                                <div class="left">
-                                    <input type="checkbox">
-                                    <i class="fa fa-circle icon-selected"></i>
-                                    <strong>{{message.SenderName}} {{message.SenderSurname}}</strong>
-                                    <p>{{message.Subject}}</p>
-                                </div>
-                                <div class="right">
-                                    <p>{{message.MailDate}}</p>
-                                    <i class="fa fa-angle-right expand-mail"></i>
-                                </div>
-                            </div>
-
-                            <article class="hidden">
-                                <h3>{{message.Subject}}</h3>
-                                <p>{{message.MessageBody}}</p>
-                                <div>
-                                    <button class="green-button">REPLY</button>
-                                    <button class="red-button delete-mail">DELETE</button>
+                        @foreach (var x in @Model.CorreosResponse.Mails)
+                        {
+                            <li v-for="message in messages">
+                                <div class="mail">
+                                    <div class="left">
+                                        <input type="checkbox">
+                                        <i class="fa fa-circle icon-selected"></i>
+                                        <strong>@x.SenderName @x.SenderSurname</strong>
+                                        <p>@x.Subject</p>
+                                    </div>
+                                    <div class="right">
+                                        <p>@x.MailDate</p>
+                                        <i class="fa fa-angle-right expand-mail"></i>
+                                    </div>
                                 </div>
 
-                            </article>
-                            <div class="clear"></div>
+                                <article class="hidden">
+                                    <h3>@x.Subject</h3>
+                                    <p>@x.MessageBody</p>
+                                    <div>
+                                        <button class="green-button">REPLY</button>
+                                        <button class="red-button delete-mail">DELETE</button>
+                                    </div>
+                                </article>
+                                <div class="clear"></div>
+                            </li>
+                        }
 
-                        </li>
+
+
                     </ul>
                     <div><p class="more-messages bg-primary">5 Previously Messages</p></div>
                     <div class="clear"></div>
