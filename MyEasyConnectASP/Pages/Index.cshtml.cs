@@ -10,22 +10,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using MyEasyConnect.Models;
 
 namespace MyEasyConnectASP.Pages
 {
     public class IndexModel : PageModel
     {
         public GetWorkerRS Worker { get; set; }
-        public string Reminder { get; set; }
+        public GetReminderRS Reminder { get; set; }
         public async Task OnGet()
         {
             string data = "{ WorkerId: '1'}";
             string contentType = "application/json";
             await GetWorker();
-            Reminder = GetReminders("http://localhost:62114/GetReminders",data,contentType);           
+            GetReminders("http://localhost:62114/GetReminders",data,contentType);           
         }
 
-        public string GetReminders(string uri, string data, string contentType, string method = "POST")
+        public void GetReminders(string uri, string data, string contentType, string method = "POST")
         {
             byte[] dataBytes = Encoding.UTF8.GetBytes(data);
 
@@ -44,7 +45,10 @@ namespace MyEasyConnectASP.Pages
             using (Stream stream = response.GetResponseStream())
             using (StreamReader reader = new StreamReader(stream))
             {
-                return reader.ReadToEnd();
+
+                string resultado = reader.ReadToEnd();
+
+                Reminder = JsonConvert.DeserializeObject<GetReminderRS>(resultado);
             }
         }
 
