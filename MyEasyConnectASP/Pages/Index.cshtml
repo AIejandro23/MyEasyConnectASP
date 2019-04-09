@@ -10,8 +10,8 @@
             <img id="logo" src="images/logo-easy-connect_SBS.png" alt="Logo pagina">
             <ul>
                 <li id="senior">
-                    <img id="imagenUsuario" alt="foto de usuario">
-                    <strong id="nombreUsuario"></strong>
+                    <img id="imagenUsuario" alt="foto de usuario" src="~/images/senior.png">
+                    <strong id="nombreUsuario">@Model.Worker.Worker.Name @Model.Worker.Worker.FirstSurname</strong>
                 </li>
                 <li class="nav-options">
                     <img src="images/config.png" alt="Configuracion">
@@ -107,7 +107,7 @@
                     <img src="images/reward-points.png" alt="points icon">
                     <p>MY POINTS</p>
                 </div>
-                <p class="total-points">Total Points 725</p>
+                <p class="total-points">Total Points @Model.Worker.Worker.Points</p>
                 <img class="layer3" src="images/layer 3.png" alt="">
             </div>
         </section>
@@ -262,44 +262,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/es.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script>
-    var app = new Vue({
-        el: '#app',
-        data: {
-            uri: 'http://localhost:62114',
-            messages: [],
-            reminders: []
-        },
-        created: async function () {
-            let items = await fetch(this.uri + "/getCorreos", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    "WorkerId": 1,
-
-                }),
-            })
-            let correosResponse = await items.json()
-            this.messages = await correosResponse.Mails
-
-            let items2 = await fetch(this.uri + "/getReminders", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    "WorkerId": 1,
-
-                }),
-            })
-            let response = await items2.json()
-            this.reminders = response.ReminderList
-        },
-    })
-
-</script>
 
 <script src="js/main.js"></script>
