@@ -17,44 +17,35 @@ namespace MyEasyConnectASP.Pages
     public class IndexModel : PageModel
     {
         public GetWorkerRS Worker { get; set; }
-        public string Reminder { get; set; }
         public GetCorreosRS CorreosResponse { get; set; }
 
-        public GetReminderRS Reminder { get; set; }
+        public GetReminderRS ReminderResponse { get; set; }
         public async Task OnGet()
         {
-            string data = "{ WorkerId: '1'}";
-            string contentType = "application/json";
             await GetWorker();
             await GetCorreos();
-            Reminder = GetReminders("http://localhost:62114/GetReminders",data,contentType);           
-            GetReminders("http://localhost:62114/GetReminders",data,contentType);           
+            await GetReminders();           
         }
 
-        public void GetReminders(string uri, string data, string contentType, string method = "POST")
+        public async Task GetReminders()
         {
-            byte[] dataBytes = Encoding.UTF8.GetBytes(data);
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-            request.ContentLength = dataBytes.Length;
-            request.ContentType = contentType;
-            request.Method = method;
-
-            using (Stream requestBody = request.GetRequestStream())
+            using (var client = new HttpClient())
             {
-                requestBody.Write(dataBytes, 0, dataBytes.Length);
+                client.BaseAddress = new Uri("http://localhost:62114");
+
+                var content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("WorkerId", "1")
+                });
+
+                var result = await client.PostAsync("/getReminders", content);
+
+                string resultContent = await result.Content.ReadAsStringAsync();
+
+                ReminderResponse = JsonConvert.DeserializeObject<GetReminderRS>(resultContent);
+
             }
-
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
-            {
-
-                string resultado = reader.ReadToEnd();
-
-                Reminder = JsonConvert.DeserializeObject<GetReminderRS>(resultado);
-            }
+           
         }
 
         public async Task GetWorker()
