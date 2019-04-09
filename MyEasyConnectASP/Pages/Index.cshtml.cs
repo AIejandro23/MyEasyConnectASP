@@ -15,12 +15,13 @@ namespace MyEasyConnectASP.Pages
 {
     public class IndexModel : PageModel
     {
+        public GetWorkerRS Worker { get; set; }
         public string Reminder { get; set; }
-        public void OnGet()
+        public async Task OnGet()
         {
             string data = "{ WorkerId: '1'}";
             string contentType = "application/json";
-
+            await GetWorker();
             Reminder = GetReminders("http://localhost:62114/GetReminders",data,contentType);           
         }
 
@@ -45,12 +46,6 @@ namespace MyEasyConnectASP.Pages
             {
                 return reader.ReadToEnd();
             }
-        }
-
-        public GetWorkerRS Worker { get; set; }
-        public async Task OnGetAsync()
-        {
-            await GetWorker();
         }
 
         public async Task GetWorker()
