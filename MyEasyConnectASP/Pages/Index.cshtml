@@ -135,11 +135,11 @@
                 </div>
 
                 <div>
-
                     <ul id="mail-list">
+
                         @foreach (var x in @Model.CorreosResponse.Mails)
                         {
-                            <li v-for="message in messages">
+                            <li>
                                 <div class="mail">
                                     <div class="left">
                                         <input type="checkbox">
@@ -189,28 +189,31 @@
                     <h3>TODAY</h3>
                     <p>2 JULY / MONDAY</p>
 
-                    <div v-for="reminder in reminders" class="reminder-wrapper">
-                        <div class="reminder">
-                            <i class="fa fa-calendar"></i>
-                            <div class="reminder-info">
-                                <h4 id="reminderTitle"></h4>
-                                <p id="reminderSubtitle">{{reminder.Subtitle}}</p>
+                    @foreach (var x in @Model.ReminderResponse.ReminderList)
+                    {
+
+                        <div class="reminder-wrapper">
+                            <div class="reminder">
+                                <i class="fa fa-calendar"></i>
+                                <div class="reminder-info">
+                                    <h4 id="reminderTitle">@x.Title</h4>
+                                    <p id="reminderSubtitle">@x.Subtitle</p>
+                                </div>
+                                <i class="fa fa-close expand-reminder" onclick="toggleReminder(event)"></i>
                             </div>
-                            <i class="fa fa-close expand-reminder" onclick="toggleReminder(event)"></i>
-                        </div>
-                        <div id="reminderDescription" class="expanded-reminder bg-primary ">
-                            <p><strong>{{reminder.EventDate}}</strong></p>
-                            <p>{{reminder.Description}}</p>
-                            <div class="button-group">
-                                <button class="green-button">CHANGE</button>
-                                <button class="red-button">DONE</button>
+                            <div id="reminderDescription" class="expanded-reminder bg-primary ">
+                                <p><strong>@x.EventDate</strong></p>
+                                <p>@x.Description</p>
+                                <div class="button-group">
+                                    <button class="green-button">CHANGE</button>
+                                    <button class="red-button">DONE</button>
+                                </div>
+                                <div class="clear"></div>
                             </div>
-                            <div class="clear"></div>
                         </div>
+                    }
+
                     </div>
-
-
-                </div>
                 <!-- calendar -->
                 <div id="calendar">
                     <!-- calendar month picker -->

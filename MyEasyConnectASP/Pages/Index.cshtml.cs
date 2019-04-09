@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using MyEasyConnect.Models;
 
 namespace MyEasyConnectASP.Pages
 {
@@ -18,8 +11,8 @@ namespace MyEasyConnectASP.Pages
     {
         public GetWorkerRS Worker { get; set; }
         public GetCorreosRS CorreosResponse { get; set; }
+        public GetRemindersRS ReminderResponse { get; set; }
 
-        public GetReminderRS ReminderResponse { get; set; }
         public async Task OnGet()
         {
             await GetWorker();
@@ -42,7 +35,7 @@ namespace MyEasyConnectASP.Pages
 
                 string resultContent = await result.Content.ReadAsStringAsync();
 
-                ReminderResponse = JsonConvert.DeserializeObject<GetReminderRS>(resultContent);
+                ReminderResponse = JsonConvert.DeserializeObject<GetRemindersRS>(resultContent);
 
             }
            

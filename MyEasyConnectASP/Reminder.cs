@@ -1,4 +1,4 @@
-﻿namespace MyEasyConnect.Models
+﻿namespace MyEasyConnectASP
 {
     public class Reminder
     {
